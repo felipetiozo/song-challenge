@@ -1,4 +1,4 @@
-# frontend
+# spotify-song-challenge-frontend
 
 ## Project setup
 ```
