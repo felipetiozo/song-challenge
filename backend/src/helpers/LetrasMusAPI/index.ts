@@ -41,13 +41,11 @@ export default class SpotifyAPI {
   public async getTrackId(trackName: string, trackAuthorName: string) {
     const q = `${trackName} ${trackAuthorName}`
     const findTrackURL = new URL(
-      'https://cse.google.com/cse/element/v1?rsz=8&num=8&hl=pt-PT&source=gcsc&gss=.br&cselibv=26b8d00a7c7a0812&cx=partner-pub-9911820215479768:4038644078&safe=off&cse_tok=AJvRUv2JvuJRrM286WPOFydbrmA_:1604715442272&exp=csqr,cc&callback=google.search.cse.api1616'
+      'https://studiosolsolr-a.akamaihd.net/letras/m1/?callback=LetrasSug'
     )
     findTrackURL.searchParams.append('q', q)
 
-    console.log(findTrackURL.href)
-
-    const { data: response } = await this.request(
+    const { data: rawResponse } = await this.request(
       'GET',
       null,
       undefined,
@@ -56,6 +54,10 @@ export default class SpotifyAPI {
       findTrackURL.href
     )
 
-    console.log(response)
+    const track = JSON.parse(rawResponse.split('LetrasSug(')[1].split(')\n')[0])
+      .response.docs[0]
+
+    const trackId = track.imu
+    return trackId
   }
 }
