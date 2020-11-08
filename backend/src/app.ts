@@ -8,11 +8,13 @@ import mongoStep from './setup/mongo'
 import expressStep from './setup/express'
 
 import apiGeneral from './setup/api.general'
+import apiTracks from './setup/api.tracks'
 
 const setupSteps: AppSteps = {
   mongo: mongoStep as typeof mongoStep,
   express: expressStep as typeof expressStep,
   'api.general': apiGeneral as typeof apiGeneral,
+  'api.tracks': apiTracks as typeof apiTracks,
   lift: liftStep as never,
 }
 

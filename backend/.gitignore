@@ -72,3 +72,5 @@ package-lock.json
 kube/staging/clouddns-service-account.json
 
 dist/
+
+.env
