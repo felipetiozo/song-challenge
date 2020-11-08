@@ -13,7 +13,44 @@ export default async function getSubtitleFromTrackId(
     spotifyTrack.album.artists.map((artist) => artist.name).join(' ')
   )
 
-  letrasMusTrackId
+  const trackVariations = await letrasMusAPI.getTrackVariations(
+    letrasMusTrackId
+  )
 
-  return 'opa'
+  const bestVariation = await findBestVariation(
+    trackVariations,
+    letrasMusTrackId,
+    letrasMusAPI,
+    spotifyTrack.duration_ms
+  )
+
+  return bestVariation
+}
+
+async function findBestVariation(
+  trackVariations,
+  letrasMusTrackId,
+  letrasMusAPI,
+  spotifyTrackDuration
+) {
+  const populatedTrackVariations = await Promise.all(
+    trackVariations.map(async (variationId) => {
+      const variation = await letrasMusAPI.getTrackVariationInfo(
+        letrasMusTrackId,
+        variationId
+      )
+
+      // const variationDuration = youtubeaPI...
+
+      return {
+        subtitle: variation.Original.Subtitle,
+        // duration: variationDuration,
+      }
+    })
+  )
+
+  // ver qual tem a duration mais parecida com spotifyTrackDuration e retornar subtitle
+  populatedTrackVariations
+  spotifyTrackDuration
+  return ''
 }

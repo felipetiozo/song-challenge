@@ -1,5 +1,5 @@
 import { URL } from 'url'
-// import * as Interfaces from './interfaces'
+import * as Interfaces from './interfaces'
 import Axios, { AxiosRequestConfig, Method } from 'axios'
 
 export default class SpotifyAPI {
@@ -38,7 +38,10 @@ export default class SpotifyAPI {
     return await this.request('DELETE', route, data, params)
   }
 
-  public async getTrackId(trackName: string, trackAuthorName: string) {
+  public async getTrackId(
+    trackName: string,
+    trackAuthorName: string
+  ): Promise<string> {
     const q = `${trackName} ${trackAuthorName}`
     const findTrackURL = new URL(
       'https://studiosolsolr-a.akamaihd.net/letras/m1/?callback=LetrasSug'
@@ -59,5 +62,21 @@ export default class SpotifyAPI {
 
     const trackId = track.imu
     return trackId
+  }
+
+  public async getTrackVariations(trackId: string): Promise<string[]> {
+    const { data: response } = await this.get(`/subtitle/${trackId}/`)
+    return response
+  }
+
+  public async getTrackVariationInfo(
+    trackId: string,
+    variationId: string
+  ): Promise<Interfaces.iTrackVariationInfo> {
+    const { data: response } = await this.get(
+      `/subtitle/${trackId}/${variationId}/`
+    )
+
+    return response
   }
 }
