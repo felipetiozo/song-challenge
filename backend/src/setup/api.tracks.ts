@@ -5,11 +5,12 @@ import App from '@app/types/App'
  * Routes
  */
 import searchRoute from '@app/api/tracks/search/route'
+import createChallengeRoute from '@app/api/tracks/spotifyTrackId/challenge/route'
 
 export default async function apiHealthCheck(app: App) {
   const api = express()
 
-  const routers = [searchRoute]
+  const routers = [searchRoute, createChallengeRoute]
   for (const route of routers) {
     await route(api)
   }

@@ -1,29 +1,22 @@
-import * as Interfaces from './interfaces'
+import { URL } from 'url'
+// import * as Interfaces from './interfaces'
 import Axios, { AxiosRequestConfig, Method } from 'axios'
 
 export default class SpotifyAPI {
-  constructor(token: string) {
-    this.token = token.startsWith('Bearer ') ? token : `Bearer ${token}`
-  }
-
-  private token: string
-
   private async request(
     method: Method,
     route: string,
     data?: any,
     headers?: any,
-    params?: any
+    params?: any,
+    url?: string
   ) {
     const axiosRequest: AxiosRequestConfig = {
-      url: `${process.env.SPOTIFY_API}${route}`,
+      url: url || `${process.env.LETRAS_MUS_API}${route}`,
       method,
       data,
       params,
-      headers: {
-        authorization: this.token,
-        ...headers,
-      },
+      headers,
     }
 
     return await Axios(axiosRequest)
@@ -45,13 +38,24 @@ export default class SpotifyAPI {
     return await this.request('DELETE', route, data, params)
   }
 
-  public async searchTrack(q: string): Promise<Interfaces.iTrack[]> {
-    const { data: response } = await this.get(`/search`, { q, type: 'track' })
-    return response.tracks.items
-  }
+  public async getTrackId(trackName: string, trackAuthorName: string) {
+    const q = `${trackName} ${trackAuthorName}`
+    const findTrackURL = new URL(
+      'https://cse.google.com/cse/element/v1?rsz=8&num=8&hl=pt-PT&source=gcsc&gss=.br&cselibv=26b8d00a7c7a0812&cx=partner-pub-9911820215479768:4038644078&safe=off&cse_tok=AJvRUv2JvuJRrM286WPOFydbrmA_:1604715442272&exp=csqr,cc&callback=google.search.cse.api1616'
+    )
+    findTrackURL.searchParams.append('q', q)
 
-  public async getTrack(trackId: string): Promise<Interfaces.iTrack> {
-    const { data: response } = await this.get(`/tracks/${trackId}`)
-    return response
+    console.log(findTrackURL.href)
+
+    const { data: response } = await this.request(
+      'GET',
+      null,
+      undefined,
+      undefined,
+      { q },
+      findTrackURL.href
+    )
+
+    console.log(response)
   }
 }
