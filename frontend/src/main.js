@@ -5,9 +5,14 @@ import vant from "@/plugins/vant";
 import vuetify from "@/plugins/vuetify";
 import store from "@/store";
 
+import Colors from "@/styles/Colors.css";
+import Typography from "@/styles/Typography.css";
+
 Vue.config.productionTip = false;
 
 new Vue({
+  Colors,
+  Typography,
   router,
   vant,
   vuetify,

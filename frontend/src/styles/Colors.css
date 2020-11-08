@@ -1,0 +1,35 @@
+:root {
+  --gray-dark: #424b54;
+  --white: #ffffff;
+  --laranjosa: linear-gradient(270deg, #df3d7a 0%, #ffa34f 117.07%);
+}
+
+.gray-dark {
+  background-color: var(--gray-dark) !important;
+}
+.gray-dark-outline {
+  border-color: var(--gray-dark) !important;
+}
+.gray-dark--text {
+  color: var(--gray-dark) !important;
+}
+
+.white {
+  background-color: var(--white) !important;
+}
+.white-outline {
+  border-color: var(--white) !important;
+}
+.white--text {
+  color: var(--white) !important;
+}
+
+.laranjosa {
+  background: var(--laranjosa) !important;
+}
+.laranjosa-outline {
+  border-color: var(--laranjosa) !important;
+}
+.laranjosa--text {
+  color: var(--laranjosa) !important;
+}

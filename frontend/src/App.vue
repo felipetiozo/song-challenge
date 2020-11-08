@@ -7,7 +7,8 @@
 </template>
 
 <style>
-#app {
+#app,
+.v-application {
   font-family: "Red Hat Display", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
