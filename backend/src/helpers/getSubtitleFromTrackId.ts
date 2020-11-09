@@ -1,4 +1,5 @@
 import SpotifyAPI from '@app/helpers/SpotifyAPI'
+import YoutubeAPI from '@app/helpers/YoutubeAPI'
 import LetrasMusAPI from '@app/helpers/LetrasMusAPI'
 
 export default async function getSubtitleFromTrackId(
@@ -33,6 +34,7 @@ async function findBestVariation(
   letrasMusAPI,
   spotifyTrackDuration
 ) {
+  const youtubeAPI = new YoutubeAPI(process.env.YOUTUBE_KEY)
   const populatedTrackVariations = await Promise.all(
     trackVariations.map(async (variationId) => {
       const variation = await letrasMusAPI.getTrackVariationInfo(
@@ -40,17 +42,25 @@ async function findBestVariation(
         variationId
       )
 
-      // const variationDuration = youtubeaPI...
+      const variationDuration = await youtubeAPI.getVideoDuration(
+        variation.Original.VideoID
+      )
 
       return {
         subtitle: variation.Original.Subtitle,
-        // duration: variationDuration,
+        duration: variationDuration,
       }
     })
   )
 
-  // ver qual tem a duration mais parecida com spotifyTrackDuration e retornar subtitle
-  populatedTrackVariations
-  spotifyTrackDuration
-  return ''
+  const bestVariation = populatedTrackVariations.reduce((prev, curr) => {
+    return Math.abs(curr.duration - spotifyTrackDuration) <
+      Math.abs(prev.duration - spotifyTrackDuration)
+      ? curr
+      : prev
+  })
+
+  console.log(bestVariation)
+
+  return bestVariation.subtitle
 }

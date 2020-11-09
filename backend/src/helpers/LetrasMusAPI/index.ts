@@ -2,7 +2,7 @@ import { URL } from 'url'
 import * as Interfaces from './interfaces'
 import Axios, { AxiosRequestConfig, Method } from 'axios'
 
-export default class SpotifyAPI {
+export default class LetrasMusAPI {
   private async request(
     method: Method,
     route: string,
